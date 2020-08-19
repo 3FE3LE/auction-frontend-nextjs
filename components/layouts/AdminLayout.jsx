@@ -3,7 +3,7 @@ import Head from 'next/head'
 import  SideBar  from '../SideBar';
 import { useRouter } from 'next/router';
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = ({ children }) =>  {
     const router = useRouter();
     return (
         <>
