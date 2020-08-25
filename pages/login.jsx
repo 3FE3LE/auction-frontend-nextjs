@@ -1,14 +1,26 @@
-import React from 'react'
+// import dependencies
+import React, { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { useRouter } from 'next/router'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+// import components
 import LandingLayout from '../components/layouts/LandingLayout'
+// import constants
+import MUTATION from '../constants/mutations'
 
 export default function Login() {
 
+    const router = useRouter();
+
+    const [msg, setMsg] = useState(null)
+
+    const [authUser] = useMutation(MUTATION.authUser)
+
     const formik = useFormik({
-        initialValues:{
-            email:'',
-            password:''
+        initialValues: {
+            email: '',
+            password: ''
         },
         validationSchema: Yup.object({
             email: Yup.string()
@@ -18,22 +30,53 @@ export default function Login() {
                 .required('La contraseña es requerida')
                 .min(6, 'Debe contener al menos 6 caracteres')
         }),
-        onSubmit: values => {
-            console.log('Sending')
-            console.log(values)
+        onSubmit: async values => {
+            const {email, password} = values;
+            try {
+                const {data} = await authUser({
+                    variables:{
+                        input:{
+                            email,
+                            password
+                        }
+                    }
+                })
+                console.log(data)
+
+                const {token} = data.authUser;
+                localStorage.setItem('token',token)
+
+                setMsg('Iniciando sesión...')
+                setTimeout(() => {
+                    router.push('/')
+                }, 1500);
+            } catch (error) {
+                setMsg(error.message.replace('GraphQL error: ',''))
+                setTimeout(() => {
+                    setMsg(''); 
+                }, 3000);
+                
+            }
         }
     })
+
+    const showMsg = () => (
+        <div className="bg-white py-2 px-3 w-full my-4 max-w-sm mx-auto text-center">
+            <p>{msg}</p>
+        </div>
+    )
 
     return (
         <>
             <LandingLayout>
+                {msg && showMsg()}
                 <h1 className="text-center text-2xl text-white font-light">
                     Login
                 </h1>
                 <div className="flex justify-center mt-5">
 
                     <div className="w-full  max-w-sm">
-                        <form 
+                        <form
                             className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
                             onSubmit={formik.handleSubmit}
                         >
@@ -56,7 +99,7 @@ export default function Login() {
                                     <p className="font-bold" >Error</p>
                                     <p>{formik.errors.email}</p>
                                 </div>
-                            ): null}
+                            ) : null}
                             <div className="mb-4" >
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                                     Contrase&#241;a
@@ -76,10 +119,10 @@ export default function Login() {
                                     <p className="font-bold" >Error</p>
                                     <p>{formik.errors.password}</p>
                                 </div>
-                            ): null}
-                            <input 
+                            ) : null}
+                            <input
                                 className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:cursor-pointer"
-                                type="submit" 
+                                type="submit"
                                 value="Iniciar Sesión" />
                         </form>
                     </div>

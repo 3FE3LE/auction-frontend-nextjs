@@ -1,22 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import LandingLayout from '../components/layouts/LandingLayout'
+import { useMutation } from '@apollo/client'
+
+// constants
+import MUTATION from '../constants/mutations'
+import { useRouter } from 'next/router'
+
+
+
 
 export default function Login() {
 
+    const router = useRouter();
+
+    const [msg, setMsg] = useState(null)
+
+    const [newUser] = useMutation(MUTATION.newUser);
+
     const formik = useFormik({
-        initialValues:{
-            name:'',
-            lastName:'',
-            email:'',
-            password:''
+        initialValues: {
+            name: '',
+            lastName: '',
+            email: '',
+            password: ''
         },
         validationSchema: Yup.object({
             name: Yup.string()
-                .required('El correo electrónico es requerido'),
+                .required('El nombre es requerido'),
             lastName: Yup.string()
-                .required('El correo electrónico es requerido'),
+                .required('El apellido es requerido'),
             email: Yup.string()
                 .email('No tiene el formato adecuado')
                 .required('El correo electrónico es requerido'),
@@ -24,22 +38,54 @@ export default function Login() {
                 .required('La contraseña es requerida')
                 .min(6, 'Debe contener al menos 6 caracteres')
         }),
-        onSubmit: values => {
-            console.log('Sending')
-            console.log(values)
+        onSubmit: async values => {
+            const { name, lastName, email, password } = values;
+            try {
+                const { data } = await newUser({
+                    variables: {
+                        input: {
+                            name,
+                            lastName,
+                            email,
+                            password
+                        }
+                    }
+                })
+                console.log(data )
+                setMsg(`${data.newUser.name} ${data.newUser.lastName} se registro correctamente`)
+                setTimeout(() => {
+                    setMsg(null)
+                }, 3000);
+                setTimeout(() => {
+                    router.push('/login')
+                }, 4000);
+            } catch (error) {
+                setMsg(error.message.replace('GraphQL error: ', ''))
+                setTimeout(() => {
+                    setMsg(null)
+                }, 3000);
+                console.log(error)
+            }
         }
     })
+
+    const showMsg = () => (
+        <div className="bg-white py-2 px-3 w-full my-4 max-w-sm mx-auto text-center">
+            <p>{msg}</p>
+        </div>
+    )
 
     return (
         <>
             <LandingLayout>
+                {msg && showMsg()}
                 <h1 className="text-center text-2xl text-white font-light">
                     Registro de usurario
                 </h1>
                 <div className="flex justify-center mt-5">
 
                     <div className="w-full  max-w-sm">
-                        <form 
+                        <form
                             className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
                             onSubmit={formik.handleSubmit}
                         >
@@ -62,7 +108,7 @@ export default function Login() {
                                     <p className="font-bold" >Error</p>
                                     <p>{formik.errors.name}</p>
                                 </div>
-                            ): null}
+                            ) : null}
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
                                     Apellidos
@@ -82,7 +128,7 @@ export default function Login() {
                                     <p className="font-bold" >Error</p>
                                     <p>{formik.errors.lastName}</p>
                                 </div>
-                            ): null}
+                            ) : null}
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                                     Correo Electrónico
@@ -102,7 +148,7 @@ export default function Login() {
                                     <p className="font-bold" >Error</p>
                                     <p>{formik.errors.email}</p>
                                 </div>
-                            ): null}
+                            ) : null}
                             <div className="mb-4" >
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                                     Contrase&#241;a
@@ -122,10 +168,10 @@ export default function Login() {
                                     <p className="font-bold" >Error</p>
                                     <p>{formik.errors.password}</p>
                                 </div>
-                            ): null}
-                            <input 
+                            ) : null}
+                            <input
                                 className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:cursor-pointer"
-                                type="submit" 
+                                type="submit"
                                 value="Crear Cuenta" />
                         </form>
                     </div>
