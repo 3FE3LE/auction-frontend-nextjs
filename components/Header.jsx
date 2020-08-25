@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import QUERY from '../constants/queries'
 import { useRouter } from 'next/router'
+import QUERY from '../constants/queries'
 
 
 const Header = () => {
@@ -11,9 +11,7 @@ const Header = () => {
   
   if(loading) return null;
 
-  if(!data) {
-    return router.push('/login')
-  }
+  
   
   const {name, lastName} = data?.getUser;
   

@@ -3,9 +3,10 @@ import { setContext } from 'apollo-link-context'
 import fetch from 'node-fetch'
 
 const httpLink = createHttpLink({
-  uri: "https://auction-backend-gql.herokuapp.com/",
+  uri: process.env.NEXT_PUBLIC_URL,
   fetch
 })
+
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('token');

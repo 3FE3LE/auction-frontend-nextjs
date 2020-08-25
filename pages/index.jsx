@@ -39,8 +39,9 @@ export default function Index() {
 
   if (!data?.getClientsByUser) {
     localStorage.clear()
-    return router.push('/login')
-    // window.location.reload()
+    router.push('/login')
+    router.reload()
+    return null;
   }
 
 
