@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 // import components
 import LandingLayout from '../components/layouts/LandingLayout'
-import { Loader } from '../components/Loader'
+importLoaderfrom '../components/Loader'
 
 export default function Index() {
 

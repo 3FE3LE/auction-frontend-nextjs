@@ -8,7 +8,7 @@ import * as Yup from 'yup'
 import LandingLayout from '../components/layouts/LandingLayout'
 // import constants
 import MUTATION from '../constants/mutations'
-import { Loader } from '../components/Loader'
+importLoaderfrom '../components/Loader'
 
 export default function Login() {
 

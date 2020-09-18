@@ -1,7 +1,7 @@
 {
-  "name": "nextjs",
+  "name": "auction-frontend-nextjs",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -20,5 +20,9 @@
     "react-select": "^3.1.0",
     "sweetalert2": "^9.17.1",
     "yup": "^0.29.3"
-  }
+  },
+  "main": "index.js",
+  "repository": "git@github.com:3FE3LE/auction-frontend-nextjs.git",
+  "author": "3FE 3LE (Frank Licona) <3l33f3@gmail.com>",
+  "license": "MIT"
 }

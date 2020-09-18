@@ -9,7 +9,7 @@ import AdminLayout from '../../components/layouts/AdminLayout';
 import QUERY from '../../constants/queries';
 import MUTATION from '../../constants/mutations';
 import Swal from 'sweetalert2';
-import { Loader } from '../../components/Loader';
+importLoaderfrom '../../components/Loader';
 
 const EditClient = () => {
   const router = useRouter();
