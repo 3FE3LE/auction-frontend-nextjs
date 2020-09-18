@@ -19,7 +19,7 @@ const SideBar = () => {
         }
     ]
     return (
-        <aside className="bg-gray-800 xs:w-1/10 sm:w-1/3 md:w-1/4 xl:w-1/5 p-5">
+        <aside className="bg-gray-800 xs:w-1/10 sm:w-1/3 md:w-1/4 xl:w-1/5 p-5 rounded-r-lg shadow-md my-5 ">
             <div>
                 <Link href="/">
                     <p className="text-white font-black text-2xl ">
@@ -29,9 +29,9 @@ const SideBar = () => {
             </div>
             <nav className="list-none mt-5 " >
                 {navItems.map(item => (
-                    <li key={item.path } className={router.pathname === item.path ? 'bg-blue-700 p-2 ' : 'p-2'}>
+                    <li key={item.path } className={router.pathname === item.path ? 'bg-blue-700 p-2 rounded-lg shadow-md' : 'p-2 rounded shadow-sm'}>
                         <Link href={item.path} >
-                            <a className="text-white block" >{item.name}</a>
+                            <a className="text-white block " >{item.name}</a>
                         </Link>
                     </li>
                 ))}

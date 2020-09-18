@@ -40,8 +40,8 @@ const MUTATION = {
       }
     }
   `,
-  updateClient: gql `
-    mutation updateClient($id: ID, $input: ClientInput){
+  updateClient: gql`
+    mutation updateClient($id: ID!, $input: ClientInput){
       updateClient(id:$id, input: $input){
         id
         name
@@ -50,7 +50,37 @@ const MUTATION = {
         email
       }
     }
-  `
+  `,
+  newProduct: gql`
+    mutation newProduct($input: ProductInput){
+      newProduct(input:$input){
+        id
+        name
+        quantity
+        price
+        created_at
+      }
+    }
+  `,
+  deleteProduct: gql`
+    mutation deleteProduct($id: ID!){
+      deleteProduct(id:$id){
+        id
+        name
+      }
+    }
+  `,
+  updateProduct: gql `
+    mutation updateProduct($id: ID!, $input: ProductInput){
+      updateProduct(id: $id, input: $input){
+        id
+        name
+        quantity
+        price
+        created_at
+      }
+    }`
+
 }
 
 export default MUTATION

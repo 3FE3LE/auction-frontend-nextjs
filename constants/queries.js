@@ -33,6 +33,28 @@ const QUERY = {
         cellphone
       }
     }
+  `,
+  getProducts: gql`
+    query getProducts{
+      getProducts{
+        id
+        name
+        quantity
+        price
+        created_at
+      }
+    }
+  `,
+  getProductById: gql `
+    query getProductById($id: ID!){
+      getProductById(id: $id){
+        id
+        name
+        quantity
+        price
+        created_at
+      }
+    }
   `
 }
 

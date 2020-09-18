@@ -11,7 +11,7 @@ import QUERY from '../constants/queries';
 
 
 
-export default function Index() {
+export default function NewClient() {
   const router = useRouter();
 
   const [newClient] = useMutation(MUTATION.newClient,{

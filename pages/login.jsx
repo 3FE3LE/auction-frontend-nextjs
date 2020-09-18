@@ -1,5 +1,5 @@
 // import dependencies
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useFormik } from 'formik'
@@ -8,6 +8,7 @@ import * as Yup from 'yup'
 import LandingLayout from '../components/layouts/LandingLayout'
 // import constants
 import MUTATION from '../constants/mutations'
+import { Loader } from '../components/Loader'
 
 export default function Login() {
 
@@ -16,6 +17,11 @@ export default function Login() {
     const [msg, setMsg] = useState(null)
 
     const [authUser] = useMutation(MUTATION.authUser)
+
+    useEffect(() => {
+        // Prefetch the dashboard page as the user will go there after the login
+        router.prefetch('/')
+      }, [])
 
     const formik = useFormik({
         initialValues: {
@@ -31,31 +37,29 @@ export default function Login() {
                 .min(6, 'Debe contener al menos 6 caracteres')
         }),
         onSubmit: async values => {
-            const {email, password} = values;
+            const { email, password } = values;
             try {
-                const {data} = await authUser({
-                    variables:{
-                        input:{
+                const { data } = await authUser({
+                    variables: {
+                        input: {
                             email,
                             password
                         }
                     }
                 })
                 console.log(data)
-
-                const {token} = data.authUser;
-                localStorage.setItem('token',token)
-
+                const { token } = data.authUser;
+                localStorage.setItem('token', token)
                 setMsg('Iniciando sesión...')
                 setTimeout(() => {
                     router.push('/')
                 }, 1500);
             } catch (error) {
-                setMsg(error.message.replace('GraphQL error: ',''))
+                setMsg(error.message.replace('GraphQL error: ', ''))
                 setTimeout(() => {
-                    setMsg(''); 
+                    setMsg('');
                 }, 3000);
-                
+
             }
         }
     })
@@ -69,6 +73,7 @@ export default function Login() {
     return (
         <>
             <LandingLayout>
+                <Loader open={msg === 'Iniciando sesión...' }/>
                 {msg && showMsg()}
                 <h1 className="text-center text-2xl text-white font-light">
                     Login

@@ -9,6 +9,7 @@ import AdminLayout from '../../components/layouts/AdminLayout';
 import QUERY from '../../constants/queries';
 import MUTATION from '../../constants/mutations';
 import Swal from 'sweetalert2';
+import { Loader } from '../../components/Loader';
 
 const EditClient = () => {
   const router = useRouter();
@@ -28,7 +29,11 @@ const EditClient = () => {
   console.log(data, loading)
   console.log(error)
 
-  if (loading) return 'Cargando...'
+  if (loading) return (
+    <AdminLayout>
+      <Loader open={loading} />
+    </AdminLayout>
+  )
 
   const { getClientById } = data;
 

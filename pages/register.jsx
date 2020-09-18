@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 
 
 
-export default function Login() {
+export default function Register() {
 
     const router = useRouter();
 
