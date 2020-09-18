@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 // import components
 import AdminLayout from '../components/layouts/AdminLayout'
 import { Table } from '../components/Table';
-importLoaderfrom '../components/Loader'
+import Loader from '../components/Loader'
 // import constants 
 import MUTATION from '../constants/mutations';
 import QUERY from '../constants/queries'
