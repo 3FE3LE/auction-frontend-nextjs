@@ -37,11 +37,11 @@ export default function Orders() {
   //   }
   // })
 
-  if (loading) return (
-    <AdminLayout>
-      <Loader open={loading} />
-    </AdminLayout>
-  )
+  // if (loading) return (
+  //   <AdminLayout>
+  //     <Loader open={loading} />
+  //   </AdminLayout>
+  // )
 
   // if (!data?.getProducts) {
   //   setTimeout(() => {
