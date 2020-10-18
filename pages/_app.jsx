@@ -1,14 +1,13 @@
 import client from '../config/apollo'
 import { ApolloProvider } from '@apollo/client'
 import OrderState from '../context/orders/OrderState'
+import '../styles.css'
 
 
-const MyApp = ({ Component, pageProps }) => (
-  <ApolloProvider client={client}>
+export default function MyApp  ({ Component, pageProps }) {
+  return <ApolloProvider client={client}>
     <OrderState>
       <Component {...pageProps} />
     </OrderState>
   </ApolloProvider>
-)
-
-export default MyApp;
+}

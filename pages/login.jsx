@@ -52,7 +52,7 @@ export default function Login() {
                 localStorage.setItem('token', token)
                 setMsg('Iniciando sesión...')
                 setTimeout(() => {
-                    router.push('/')
+                    router.push('/clients')
                 }, 1500);
             } catch (error) {
                 setMsg(error.message.replace('GraphQL error: ', ''))
